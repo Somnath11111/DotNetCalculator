@@ -1,4 +1,4 @@
-name: .NET Core CI
+name: .NET Core CI with Coverage
 
 on:
   push:
@@ -11,44 +11,37 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout code
+    - name: Checkout source
       uses: actions/checkout@v4
 
     - name: Setup .NET
       uses: actions/setup-dotnet@v4
       with:
-        dotnet-version: '8.0.x'
+        dotnet-version: 8.0.x
 
     - name: Restore dependencies
       run: dotnet restore
 
-    - name: Build solution
-      run: dotnet build --configuration Release
+    - name: Build
+      run: dotnet build --configuration Release --no-restore
 
     - name: Test with coverage
-      run: |
-        dotnet test CalculatorLib.Tests \
-          --configuration Release \
-          /p:CollectCoverage=true \
-          /p:CoverletOutput=coverage/ \
-          /p:CoverletOutputFormat=cobertura \
-          /p:ExcludeByAttribute=GeneratedCodeAttribute
+      run: dotnet test --configuration Release --no-build --collect:"XPlat Code Coverage"
 
     - name: Install ReportGenerator tool
       run: dotnet tool install --global dotnet-reportgenerator-globaltool
 
-    - name: Add dotnet tools to PATH
+    - name: Add .dotnet/tools to PATH
       run: echo "${HOME}/.dotnet/tools" >> $GITHUB_PATH
 
     - name: Generate coverage report
       run: |
-        reportgenerator \
-          -reports:CalculatorLib.Tests/coverage/coverage.cobertura.xml \
-          -targetdir:coverage-report \
-          -reporttypes:Html
+        REPORT_PATH=$(find . -type f -name "coverage.cobertura.xml" | head -n 1)
+        echo "Report found at: $REPORT_PATH"
+        reportgenerator -reports:"$REPORT_PATH" -targetdir:"coverage-report" -reporttypes:Html
 
-    - name: Upload coverage report artifact
+    - name: Upload coverage report as artifact
       uses: actions/upload-artifact@v4
       with:
-        name: coverage-report
+        name: code-coverage-report
         path: coverage-report

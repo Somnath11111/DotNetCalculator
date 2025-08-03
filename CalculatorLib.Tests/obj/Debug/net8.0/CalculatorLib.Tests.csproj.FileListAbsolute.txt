@@ -100,3 +100,4 @@ D:\DotNetCalculator\CalculatorLib.Tests\obj\Debug\net8.0\refint\CalculatorLib.Te
 D:\DotNetCalculator\CalculatorLib.Tests\obj\Debug\net8.0\CalculatorLib.Tests.pdb
 D:\DotNetCalculator\CalculatorLib.Tests\obj\Debug\net8.0\CalculatorLib.Tests.genruntimeconfig.cache
 D:\DotNetCalculator\CalculatorLib.Tests\obj\Debug\net8.0\ref\CalculatorLib.Tests.dll
+D:\DotNetCalculator\CalculatorLib.Tests\obj\Debug\net8.0\CalculatorLib.Tests.sourcelink.json
