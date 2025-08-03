@@ -1,4 +1,4 @@
-name: .NET Test with Coverage
+name: .NET Core CI
 
 on:
   push:
@@ -7,44 +7,47 @@ on:
     branches: [ main ]
 
 jobs:
-  test:
+  build:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout repository
-      uses: actions/checkout@v3
+    - name: Checkout code
+      uses: actions/checkout@v4
 
     - name: Setup .NET
-      uses: actions/setup-dotnet@v3
+      uses: actions/setup-dotnet@v4
       with:
-        dotnet-version: 8.0.x
+        dotnet-version: '8.0.x'
 
     - name: Restore dependencies
       run: dotnet restore
 
-    - name: Build the solution
-      run: dotnet build --configuration Release --no-restore
+    - name: Build solution
+      run: dotnet build --configuration Release
 
-    - name: Run tests with coverage
+    - name: Test with coverage
       run: |
         dotnet test CalculatorLib.Tests \
           --configuration Release \
-          --no-build \
           /p:CollectCoverage=true \
+          /p:CoverletOutput=coverage/ \
           /p:CoverletOutputFormat=cobertura \
-          /p:CoverletOutput=./coverage/
+          /p:ExcludeByAttribute=GeneratedCodeAttribute
 
-    - name: Install ReportGenerator
+    - name: Install ReportGenerator tool
       run: dotnet tool install --global dotnet-reportgenerator-globaltool
 
-    - name: Generate HTML Coverage Report
+    - name: Add dotnet tools to PATH
+      run: echo "${HOME}/.dotnet/tools" >> $GITHUB_PATH
+
+    - name: Generate coverage report
       run: |
         reportgenerator \
           -reports:CalculatorLib.Tests/coverage/coverage.cobertura.xml \
           -targetdir:coverage-report \
           -reporttypes:Html
 
-    - name: Upload coverage report as artifact
+    - name: Upload coverage report artifact
       uses: actions/upload-artifact@v4
       with:
         name: coverage-report
