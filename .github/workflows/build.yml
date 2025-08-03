@@ -1,46 +1,54 @@
-name: .NET Tests and Coverage
+name: .NET
 
-on: [push, pull_request]
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
 
 jobs:
-  build:
+  build-and-test:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout
-      uses: actions/checkout@v4
+      - name: Checkout repository
+        uses: actions/checkout@v3
 
-    - name: Setup .NET
-      uses: actions/setup-dotnet@v4
-      with:
-        dotnet-version: '8.0.x'
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '8.0.x'
 
-    - name: Restore dependencies
-      run: dotnet restore CalculatorLib.sln
+      - name: Restore dependencies
+        run: dotnet restore
 
-    - name: Build
-      run: dotnet build CalculatorLib.sln --no-restore --configuration Release
+      - name: Build
+        run: dotnet build --no-restore --configuration Release
 
-    - name: Run tests with coverage
-      run: |
+      - name: Test with coverage
+        run: |
           dotnet test CalculatorLib.Tests \
-            --no-build --configuration Release \
+            --no-build \
+            --configuration Release \
             /p:CollectCoverage=true \
-            /p:CoverletOutputFormat=cobertura \
-            /p:CoverletOutput=coverage/
+            /p:CoverletOutput=coverage/ \
+            /p:CoverletOutputFormat=cobertura
 
-    - name: Install ReportGenerator
-      run: dotnet tool install -g dotnet-reportgenerator-globaltool
+      - name: Install ReportGenerator tool
+        run: dotnet tool install --global dotnet-reportgenerator-globaltool
 
-    - name: Generate HTML report
-      run: |
+      - name: Add .NET tools to PATH
+        run: echo "${HOME}/.dotnet/tools" >> $GITHUB_PATH
+
+      - name: Generate HTML coverage report
+        run: |
           reportgenerator \
-            -reports:CalculatorLib.Tests/coverage/coverage.cobertura.xml \
+            -reports:CalculatorLib.Tests/bin/Release/net8.0/coverage/coverage.cobertura.xml \
             -targetdir:coverage-report \
             -reporttypes:Html
 
-    - name: Upload coverage report artifact
-      uses: actions/upload-artifact@v4
-      with:
-        name: CoverageReport
-        path: coverage-report
+      - name: Upload HTML report artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: coverage-report
+          path: coverage-report
