@@ -1,0 +1,53 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "D:\\DotNetCalculator\\CalculatorLib\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{5935034D-1876-4866-A58A-C41CCA9FF747}|..\\CalculatorLib.Tests\\CalculatorLib.Tests.csproj|d:\\dotnetcalculator\\calculatorlib.tests\\calculatortests.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{76011ACC-331D-46BC-BD5B-92503412A476}|CalculatorLib.csproj|d:\\dotnetcalculator\\calculatorlib\\calculator.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{76011ACC-331D-46BC-BD5B-92503412A476}|CalculatorLib.csproj|solutionrelative:calculator.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 0,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "CalculatorTests.cs",
+              "DocumentMoniker": "D:\\DotNetCalculator\\CalculatorLib.Tests\\CalculatorTests.cs",
+              "RelativeDocumentMoniker": "..\\CalculatorLib.Tests\\CalculatorTests.cs",
+              "ToolTip": "D:\\DotNetCalculator\\CalculatorLib.Tests\\CalculatorTests.cs",
+              "RelativeToolTip": "..\\CalculatorLib.Tests\\CalculatorTests.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAUAAAASAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-08-03T16:48:46.474Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "Calculator.cs",
+              "DocumentMoniker": "D:\\DotNetCalculator\\CalculatorLib\\Calculator.cs",
+              "RelativeDocumentMoniker": "Calculator.cs",
+              "ToolTip": "D:\\DotNetCalculator\\CalculatorLib\\Calculator.cs",
+              "RelativeToolTip": "Calculator.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAA0AAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-08-03T16:46:27.871Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
