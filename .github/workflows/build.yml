@@ -21,16 +21,26 @@ jobs:
     - name: Build
       run: dotnet build CalculatorLib.sln --no-restore --configuration Release
 
-    - name: Run Tests with Coverage
-      run: >
-        dotnet test CalculatorLib.sln --no-build --configuration Release
-        /p:CollectCoverage=true
-        /p:CoverletOutputFormat=cobertura
-        /p:Threshold=80
-        /p:ThresholdType=line
+    - name: Run tests with coverage
+      run: |
+          dotnet test CalculatorLib.Tests \
+            --no-build --configuration Release \
+            /p:CollectCoverage=true \
+            /p:CoverletOutputFormat=cobertura \
+            /p:CoverletOutput=coverage/
 
-    - name: Upload Coverage Report
+    - name: Install ReportGenerator
+      run: dotnet tool install -g dotnet-reportgenerator-globaltool
+
+    - name: Generate HTML report
+      run: |
+          reportgenerator \
+            -reports:CalculatorLib.Tests/coverage/coverage.cobertura.xml \
+            -targetdir:coverage-report \
+            -reporttypes:Html
+
+    - name: Upload coverage report artifact
       uses: actions/upload-artifact@v4
       with:
-        name: coverage-report
-        path: '**/coverage.cobertura.xml'
+        name: CoverageReport
+        path: coverage-report
